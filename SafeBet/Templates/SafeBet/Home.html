@@ -1,0 +1,273 @@
+﻿<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+        <meta name="generator" content="Jekyll v4.0.1">
+        <title>Safe Bet</title>
+
+        <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/navbar-fixed/">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+        <style>
+            body {
+                background: #475d62 url(/media/star-sky.jpg);
+                min-height: 75rem;
+                padding-top: 4.5rem;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-position: center;
+                background-size: cover;
+                height: 100%;
+            }
+            .Navbar_item_Class{
+                padding-top:5px;
+                padding-bottom:5px;
+                margin-top:5px;
+                margin-bottom:5px;
+                font-size:20px
+            }
+            .bd-placeholder-img {
+                font-size: 1.125rem;
+                text-anchor: middle;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+
+            @media (min-width: 768px) {
+                .bd-placeholder-img-lg {
+                    font-size: 3.5rem;
+                }
+            }
+        </style>
+    </head>
+    {% if user.is_authenticated %}
+    <body>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="#">Blue Print</a>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#Bet">Bet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#Open-Bet">Open Bet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#Close-Bet">Close Bet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href='/logout'>Log Out</a>
+                    </li>
+                </ul>
+                <div class="nav-form-inline my-2 my-md-0">
+                    <input class="form-control" id="Refresh" value="30" />
+                </div>
+            </div>
+        </nav>
+
+        <div id="Bet" style="padding-top:30px; color:dimgray">
+            <h1>BET</h1>
+            <hr style="border: 1px dashed;">
+        </div>
+        {% for Bet in Bet_L %}
+        <form action="#" method="POST" style="padding-top:5px; padding-bottom:5px">
+            {% csrf_token %}
+            <input type="hidden" name="Sport" value="{{Bet.Sport}}" />
+            <input type="hidden" name="L-Bovada" value="{{Bet.Bovada_Link}}" />
+            <input type="hidden" name="L-OnexBet" value="{{Bet.OnexBet_Link}}" />
+            <input type="hidden" name="T-Bovada" value="{{Bet.Team_Bovada}}" />
+            <input type="hidden" name="T-OnexBet" value="{{Bet.Team_OnexBet}}" />
+            <input type="hidden" name="B-Bovada" value="{{Bet.Bet_Bovada}}" />
+            <input type="hidden" name="B-OnexBet" value="{{Bet.Bet_OnexBet}}" />
+            <input type="hidden" name="O-Bovada" value="{{Bet.Odd_Bovada}}" />
+            <input type="hidden" name="O-OnexBet" value="{{Bet.Odd_OnexBet}}" />
+            <input type="hidden" name="Limit-1x" value="" id="Hidden1x2{{forloop.counter}}" />
+            <input type="hidden" name="Limit-Bovada" value="" id="HiddenBovada2{{forloop.counter}}" />
+            <input type="hidden" name="RemainTime" value="{{Bet.Remine_Time}}" />
+            <input type="hidden" name="Profit" value="{{Bet.Profit_Percent}}" />
+            <input type="hidden" name="Money-on-1x" value="" id="Hidden1x{{forloop.counter}}" />
+            <input type="hidden" name="Money-on-Bovada" value="" id="HiddenBovada{{forloop.counter}}" />
+
+            <nav class="navbar navbar-dark bg-dark">
+                <p class="navbar-brand">#{{forloop.counter}}</p>
+                <p class="navbar-brand">{{Bet.Sport}}</p>
+                <p class="navbar-brand">{{Bet.Remine_Time}}</p>
+                <p class="navbar-brand">{{Bet.Profit_Percent}}</p>
+                <button onclick="Refresh*=-1" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Bet{{forloop.counter}}" aria-controls="Bet{{forloop.counter}}" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="Bet{{forloop.counter}}">
+                    <div class="row row-cols-2" style="text-align:center; padding:5px; margin:5px; color:aliceblue">
+                        <div class="col Navbar_item_Class" style="font-size:30px"><b>Bovada</b></div>
+                        <div class="col Navbar_item_Class" style="font-size:30px"><b>1xBet</b></div>
+                        <div class="col Navbar_item_Class"><a target="_blank" href="{{Bet.Bovada_Link}}">Link</a></div>
+                        <div class="col Navbar_item_Class"><a target="_blank" href="{{Bet.OnexBet_Link}}">Link</a></div>
+                        <div class="col Navbar_item_Class">{{Bet.Team_Bovada}}</div>
+                        <div class="col Navbar_item_Class">{{Bet.Team_OnexBet}}</div>
+                        <div class="col Navbar_item_Class">{{Bet.Bet_Bovada}}</div>
+                        <div class="col Navbar_item_Class">{{Bet.Bet_OnexBet}}</div>
+                        <div class="col Navbar_item_Class" id="Bovada-Odd{{forloop.counter}}">{{Bet.Odd_Bovada}}</div>
+                        <div class="col Navbar_item_Class" id="OnexBet-Odd{{forloop.counter}}">{{Bet.Odd_OnexBet}}</div>
+                        <div class="input-group input-group-sm mb-3 col">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Limit Bovada</span>
+                            </div>
+                            <input id="Limit-Bovada{{forloop.counter}}" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                        </div>
+                        <div class="input-group input-group-sm mb-3 col">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Limit 1xBet</span>
+                            </div>
+                            <input id="Limit-OneX{{forloop.counter}}" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                        </div>
+                        <div class="col-12 Navbar_item_Class"> <button type="button" class="btn btn-primary" style="width:100%" onclick="Calc(this)" id="CalcB{{forloop.counter}}">Calc</button></div>
+                        <div class="col Navbar_item_Class" id="resultBovada{{forloop.counter}}">0</div>
+                        <div class="col Navbar_item_Class" id="resultOnexBet{{forloop.counter}}">0</div>
+                        <div class="input-group input-group-sm mb-3 col">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Money on Bovada</span>
+                            </div>
+                            <input id="Money-on-Bovada{{forloop.counter}}" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                        </div>
+                        <div class="input-group input-group-sm mb-3 col">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Money on 1xBet</span>
+                            </div>
+                            <input id="Money-on-1xBet{{forloop.counter}}" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                        </div>
+                        <div class="col-12 Navbar_item_Class"> <button onclick="Transfer(this)" type="submit" class="btn btn-success" style="width:100%" name="Confirm" value="Confirm" id="Transfer{{forloop.counter}}">Final Submit</button></div>
+                    </div>
+                </div>
+            </nav>
+        </form>
+        {% endfor %}
+
+        <div style="padding-top:30px; color:dimgray" id="Open-Bet">
+            <h1>OPEN BET</h1>
+            <hr style="border: 1px dashed;">
+        </div>
+        {% for Betq in user.wager.all %}
+        {% if Betq.OpenBet %}
+        <form action="#" method="POST" style="padding-top:5px; padding-bottom:5px">
+            {% csrf_token %}
+            <input type="hidden" name="ID" value="{{Betq.id}}" />
+            <input type="hidden" name="WIN" id="WIN{{forloop.counter}}" value="" />
+            <nav class="navbar navbar-dark bg-dark">
+                <p class="navbar-brand">#{{forloop.counter}}</p>
+                <p class="navbar-brand">{{Betq.Sport}}</p>
+                <p class="navbar-brand">{{Betq.Profit_Percent}}</p>
+                <button onclick="Refresh*=-1" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#OpenBet{{forloop.counter}}" aria-controls="OpenBet{{forloop.counter}}" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="OpenBet{{forloop.counter}}">
+                    <div class="row row-cols-2" style="text-align:center; padding:5px; margin:5px; color:aliceblue">
+                        <div class="col Navbar_item_Class" style="font-size:30px"><b>Bovada</b></div>
+                        <div class="col Navbar_item_Class" style="font-size:30px"><b>1xBet</b></div>
+                        <div class="col Navbar_item_Class">{{Betq.Team_Bovada}}</div>
+                        <div class="col Navbar_item_Class">{{Betq.Team_OnexBet}}</div>
+
+                        <div class="col form-check">
+                            <input type="radio" class="form-check-input" id="RB{{forloop.counter}}" name="{{Betq.id}}">
+                            <label class="form-check-label" for="R{{forloop.counter}}">Bovada</label>
+                        </div>
+
+                        <div class="col form-check">
+                            <input type="radio" class="form-check-input" id="R1{{forloop.counter}}" name="{{Betq.id}}" checked>
+                            <label class="form-check-label" for="R1{{forloop.counter}}">1xBet</label>
+                        </div>
+                        <div class="col-12 Navbar_item_Class"> <button id="btn{{forloop.counter}}" onclick="Transfer2(this)" type="submit" class="btn btn-success" style="width:100%" name="Confirm2" value="Confirm2">Final Submit</button></div>
+                    </div>
+                </div>
+            </nav>
+        </form>
+        {% endif %}
+        {% endfor %}
+
+        <div style="padding-top:30px; color:dimgray" id="Close-Bet">
+            <h1>CLOSE BET</h1>
+            <hr style="border: 1px dashed;">
+        </div>
+        {% for Betq in user.wager.all %}
+        {% if Betq.OpenBet == False %}
+        <nav class="navbar navbar-dark bg-dark">
+            <p class="navbar-brand">#{{forloop.counter}}</p>
+            <p class="navbar-brand">{{Betq.Sport}}</p>
+            <p class="navbar-brand">{{Betq.Profit_Percent}}</p>
+            {% if Betq.OnexBet_Win %}
+            <p class="navbar-brand">1XBET</p>
+            {% else %}
+            <p class="navbar-brand">BOVADA</p>
+            {% endif %}
+            <p class="navbar-brand">{{Betq.Final_Profit}}</p>
+        </nav>
+        {% endif %}
+        {% endfor %}
+
+        <script>
+            var Refresh = 1;
+            function Calc1(Odd1, Odd2) {
+                if ((Odd1 * Odd2) < (Odd1 + Odd2)) {
+                    return 0;
+                }
+                return (Odd2 / (Odd1 + Odd2));
+            }
+            function Transfer2(A) {
+                var id2 = A.id;
+                Sli2 = id2.slice(3);
+                if (document.getElementById('RB' + Sli2).checked == true) {
+                    document.getElementById('WIN' + Sli2).value = 'BOVADA';
+                }
+                else {
+                    document.getElementById('WIN' + Sli2).value = 'ONEXBET';
+                }
+            }
+            function Transfer(A) {
+                var id1 = A.id;
+                Sli = id1.slice(8);
+                document.getElementById('Hidden1x' + Sli).value = document.getElementById('Money-on-1xBet' + Sli).value;
+                document.getElementById('HiddenBovada' + Sli).value = document.getElementById('Money-on-Bovada' + Sli).value;
+                document.getElementById('Hidden1x2' + Sli).value = document.getElementById('Limit-OneX' + Sli).value;
+                document.getElementById('HiddenBovada2' + Sli).value = document.getElementById('Limit-Bovada' + Sli).value;
+            }
+            function Calc(A) {
+                var x = A.id;
+                y = x.slice(5);
+                x1 = Number(document.getElementById('Limit-OneX' + y).value);
+                Bo = Number(document.getElementById('Limit-Bovada' + y).value);
+                x1z = Number(document.getElementById('OnexBet-Odd' + y).innerHTML);
+                Boz = Number(document.getElementById('Bovada-Odd' + y).innerHTML);
+
+                X = x1 * Calc1(Boz, x1z) / Calc1(x1z, Boz);
+
+                if (X < Bo) {
+                    document.getElementById('resultBovada' + y).innerHTML = X;
+                    document.getElementById('resultOnexBet' + y).innerHTML = x1;
+                }
+                else {
+                    document.getElementById('resultBovada' + y).innerHTML = Bo;
+                    document.getElementById('resultOnexBet' + y).innerHTML = Bo / Calc1(Boz, x1z) * Calc1(x1z, Boz);
+                }
+            }
+            let counter = 1;
+            setInterval(() => {
+                if (Refresh > 0) {
+                    counter++;
+                }
+                if (counter > Number(document.getElementById('Refresh').value)) {
+                    location.reload();
+                }
+            }, 1000);
+        </script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    </body>
+    {% endif %}
+</html>
